@@ -1,4 +1,4 @@
-package com.example.demo.Film;
+package com.example.demo.User;
 
 import java.time.LocalDate;
 
@@ -17,17 +17,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "films")
-public class Film {
+@Table(name = "users")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
-    private LocalDate releaseDate;
-    private Integer duration;
-    private String posterURL;
-    private String description;
-    private Integer tmdbId;
+    private String username;
+    private String email;
+    private String password;
+    private LocalDate created_at;
+
 }
