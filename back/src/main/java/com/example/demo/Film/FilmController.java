@@ -1,4 +1,4 @@
-package com.example.demo.Film;
+package com.example.demo.film;
 
 public class FilmController {
 
