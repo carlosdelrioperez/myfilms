@@ -28,6 +28,7 @@ public class SecurityConfig {
                         .disable())
                 .authorizeHttpRequests(authRequest -> authRequest
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/api/movies/search").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(sessionManager -> sessionManager
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
