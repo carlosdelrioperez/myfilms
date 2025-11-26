@@ -44,7 +44,7 @@ public class AuthController {
         response.addCookie(cookie);
 
         // 3️⃣ Devolver mensaje opcional (podemos limpiar el token del body)
-        authResponse.setToken(null); // opcional: no enviar token en body
+        authResponse.setToken(token); // opcional: no enviar token en body
         return ResponseEntity.ok(authResponse);
     }
 
