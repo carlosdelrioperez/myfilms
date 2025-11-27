@@ -1,35 +1,45 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import TrendingCarousel from "../components/TrendingCarrousel";
+import BackgroundImage from "../components/BackgroundImage";
+import { getTrendingMovies } from "../services/myapi";
 
 export default function Home() {
-  const [query, setQuery] = useState("");
+  const [trendingMovies, setTrendingMovies] = useState([]);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const url = `http://localhost:8080/api/movies/search?query=${query}`;
-    const response = await fetch(url, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
-    const data = await response.json();
-    console.log(data.results);
-  };
+  useEffect(() => {
+    const fetchTrending = async () => {
+      try {
+        const data = await getTrendingMovies();
+        setTrendingMovies(data.results || []);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchTrending();
+  }, []);
+
+  const activeMovie = trendingMovies[activeIndex];
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-start p-8">
-      <h1 className="text-3xl font-semibold mb-6">Buscar película</h1>
-
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Escribe para buscar..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="w-full max-w-md px-4 py-2 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <button type="submit" className="hidden">
-          Buscar
-        </button>
-      </form>
+      <BackgroundImage movie={activeMovie} />
+      <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/70 to-transparent">
+        {trendingMovies.length === 0 ? (
+          <p>Cargando...</p>
+        ) : (
+          <>
+            <p className="text-white text-xl font-bold ml-1 drop-shadow-lg">
+              Trending Movies
+            </p>
+            <TrendingCarousel
+              movies={trendingMovies}
+              onActiveChange={setActiveIndex}
+            />
+          </>
+        )}
+      </div>
     </div>
   );
 }
